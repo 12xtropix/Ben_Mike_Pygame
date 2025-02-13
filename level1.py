@@ -7,6 +7,7 @@ class Level1:
             pygame.Rect(200, 450, 100, 20),
             pygame.Rect(400, 350, 100, 20),
             pygame.Rect(600, 250, 100, 20),
+            pygame.Rect(50,config.FLOOR, 1000, 20)
         ]
         self.ground = [pygame.Rect(50, config.FLOOR, 1000, 20)]
 
@@ -15,4 +16,5 @@ class Level1:
             pygame.draw.rect(screen, (0, 255, 0), platform)  # Green platforms
         for platform in self.ground:
             pygame.draw.rect(screen,(255,255,255),platform)
+
 

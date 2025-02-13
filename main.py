@@ -1,9 +1,9 @@
 import pygame
-from player import Player  # Import Player class
+from player import Player
 from level1 import Level1
 from level2 import Level2
 from level3 import Level3
-import config  # Import config settings
+import config
 
 class Game:
     def __init__(self):
@@ -79,6 +79,9 @@ class Game:
         # Check if player has reached an adequate height
         if self.player.rect.y < 150:
             self.next_level()
+        if self.player.rect.y > 700:
+            self.player.rect.y = config.STARTING_Y
+            self.player.rect.x = config.STARTING_X
         # Update moving platforms (if any) in the current level
         if hasattr(self.levels[self.current_level], "update"):
             self.levels[self.current_level].update()
