@@ -1,5 +1,5 @@
 import pygame
-import config
+import config  # Ensure you have a config.py file with GRAVITY and JUMP_STRENGTH
 
 class Player:
     def __init__(self):
@@ -14,8 +14,9 @@ class Player:
             self.rect.x -= 5
         if keys[pygame.K_RIGHT]:
             self.rect.x += 5
-        if keys[pygame.K_SPACE] and self.on_ground:
-            self.vel_y = config.JUMP_STRENGTH  # Apply jump force
+        if keys[pygame.K_UP] and self.on_ground:
+            print("Jumping!")  # Debugging output
+            self.vel_y = config.JUMP_STRENGTH
             self.on_ground = False
 
     def update(self, platforms):
@@ -32,9 +33,11 @@ class Player:
                     self.rect.bottom = platform.top
                     self.vel_y = 0
                     self.on_ground = True
+                    print("Player landed on a platform.")  # Debugging output
                 elif self.vel_y < 0:  # Jumping up (hitting ceiling)
                     self.rect.top = platform.bottom
                     self.vel_y = 0
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
