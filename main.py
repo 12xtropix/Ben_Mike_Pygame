@@ -5,7 +5,6 @@ from level2 import Level2
 from level3 import Level3
 import config  # Import config settings
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -15,8 +14,43 @@ class Game:
         self.running = True
 
         self.levels = [Level1(), Level2(), Level3()]
-        self.current_level = 0
+        self.current_level = self.show_level_menu()  # Ask player to choose a level
         self.player = Player()
+
+    def show_level_menu(self):
+        """Displays a menu for level selection."""
+        font = pygame.font.Font(None, 50)
+        selected_level = 0
+        menu_running = True
+
+        while menu_running:
+            self.screen.fill((50, 50, 50))  # Dark background
+
+            # Render text
+            title_text = font.render("Select a Level:", True, (255, 255, 255))
+            self.screen.blit(title_text, (config.SCREEN_SIZE[0] // 2 - 100, 100))
+
+            # Render level options
+            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3"]):
+                color = (255, 255, 0) if i == selected_level else (200, 200, 200)
+                level_text = font.render(level_name, True, color)
+                self.screen.blit(level_text, (config.SCREEN_SIZE[0] // 2 - 50, 200 + i * 60))
+
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        selected_level = (selected_level - 1) % 3
+                    elif event.key == pygame.K_DOWN:
+                        selected_level = (selected_level + 1) % 3
+                    elif event.key == pygame.K_RETURN:
+                        menu_running = False  # Start game with selected level
+
+        return selected_level  # Return the selected level index
 
     def run(self):
         while self.running:
@@ -52,9 +86,13 @@ class Game:
             self.player.rect.x = 50  # Reset player position
 
     def draw(self):
-        self.screen.fill(config.BG_COLOR)
+        # Draw background image instead of solid color
+        self.screen.blit(config.BACKGROUND_IMAGE, (0, 0))
+
+        # Draw level elements and player
         self.levels[self.current_level].draw(self.screen)
         self.player.draw(self.screen)
+
         pygame.display.flip()
 
 
