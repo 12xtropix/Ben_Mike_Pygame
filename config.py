@@ -1,0 +1,5 @@
+SCREEN_SIZE = (800, 600)
+FPS = 60
+GRAVITY = 0.5
+JUMP_STRENGTH = -10
+BG_COLOR = (135, 206, 235)  # Light blue sky
