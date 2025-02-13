@@ -19,7 +19,7 @@ class MovingPlatform:
 class Level3:
     def __init__(self):
         self.platforms = [
-            pygame.Rect(50, 550, 700, 20),  # Ground
+            pygame.Rect(50, config.FLOOR, 700, 20),  # Ground
             pygame.Rect(200, 480, 120, 20),  # Mid-level platform
             pygame.Rect(400, 400, 150, 20),  # Higher platform
         ]

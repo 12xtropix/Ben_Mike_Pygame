@@ -71,11 +71,14 @@ class Game:
 
     def update(self):
         self.player.update(self.levels[self.current_level].platforms)
+        print(self.player.rect.y)
 
         # Check if player reached the right edge of the screen
         if self.player.rect.x > config.SCREEN_SIZE[0]:
             self.next_level()
-
+        # Check if player has reached an adequate height
+        if self.player.rect.y < 150:
+            self.next_level()
         # Update moving platforms (if any) in the current level
         if hasattr(self.levels[self.current_level], "update"):
             self.levels[self.current_level].update()
@@ -83,6 +86,7 @@ class Game:
     def next_level(self):
         if self.current_level < len(self.levels) - 1:
             self.current_level += 1
+            self.player.rect.y = 400
             self.player.rect.x = 50  # Reset player position
 
     def draw(self):

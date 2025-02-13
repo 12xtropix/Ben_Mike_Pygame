@@ -1,11 +1,11 @@
 import pygame
-import config  # Ensure you have a config.py file with GRAVITY and JUMP_STRENGTH
+import config
 
 class Player:
     def __init__(self):
         self.image = pygame.Surface((30, 30), pygame.SRCALPHA)
         pygame.draw.circle(self.image, (255, 0, 0), (15, 15), 15)  # Red ball
-        self.rect = self.image.get_rect(midbottom=(100, 500))
+        self.rect = self.image.get_rect(midbottom=(100, 450))
         self.vel_y = 0
         self.on_ground = False
 
