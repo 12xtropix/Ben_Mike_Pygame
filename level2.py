@@ -10,6 +10,9 @@ class Level2:
             pygame.Rect(550, 300, 120, 20),  # Hard-to-reach platform
             pygame.Rect(250, 250, 100, 20),  # Small floating platform
         ]
+        self.moving_platforms = {
+
+        }
 
     def draw(self, screen):
         for platform in self.platforms:

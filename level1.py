@@ -9,6 +9,9 @@ class Level1:
             pygame.Rect(600, 250, 100, 20),
             pygame.Rect(50,config.FLOOR, 1000, 20)
         ]
+        self.moving_platforms = {
+
+        }
         self.ground = [pygame.Rect(50, config.FLOOR, 1000, 20)]
 
     def draw(self, screen):

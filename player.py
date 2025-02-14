@@ -1,5 +1,6 @@
 import pygame
 import config
+import MovingPlatform
 
 class Player:
     def __init__(self):
@@ -19,14 +20,16 @@ class Player:
             self.vel_y = config.JUMP_STRENGTH
             self.on_ground = False
 
-    def update(self, platforms):
+    def update(self, platforms, moving_platforms):
         self.vel_y += config.GRAVITY  # Apply gravity
         self.rect.y += self.vel_y  # Move vertically
 
-        self.check_collisions(platforms)  # Check collisions with platforms
+        self.check_collisions(platforms, moving_platforms)
 
-    def check_collisions(self, platforms):
+    def check_collisions(self, platforms, moving_platforms):
         self.on_ground = False
+
+        # Collision with static platforms
         for platform in platforms:
             if self.rect.colliderect(platform):
                 if self.vel_y > 0:  # Falling down
@@ -37,6 +40,20 @@ class Player:
                 elif self.vel_y < 0:  # Jumping up (hitting ceiling)
                     self.rect.top = platform.bottom
                     self.vel_y = 0
+
+                # Collision with moving platforms
+        for moving_platform in moving_platforms:
+            if (self.rect.colliderect(moving_platform.rect)):
+                if self.vel_y > 0:  # Falling down
+                     self.rect.bottom = moving_platform.rect.top
+                     self.vel_y = moving_platform.speed  # Move with platform
+                     self.on_ground = True
+                     print("Player landed on a moving platform.")  # Debugging output
+                elif self.vel_y < 0 and moving_platform.speed > 0:
+                        self.rect.top = moving_platform.rect.bottom
+                        self.vel_y = moving_platform.speed
+
+
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

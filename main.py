@@ -3,6 +3,7 @@ from player import Player
 from level1 import Level1
 from level2 import Level2
 from level3 import Level3
+from MovingPlatform import MovingPlatform
 import config
 
 class Game:
@@ -70,7 +71,7 @@ class Game:
         self.player.handle_input(keys)
 
     def update(self):
-        self.player.update(self.levels[self.current_level].platforms)
+        self.player.update(self.levels[self.current_level].platforms, self.levels[self.current_level].moving_platforms)
         print(self.player.rect.y)
 
         # Check if player reached the right edge of the screen
