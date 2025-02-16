@@ -3,12 +3,11 @@ import config
 from MovingPlatform import MovingPlatform
 from spike import Spike
 
-
 class Level3:
     def __init__(self):
         self.platforms = [
             pygame.Rect(50, config.FLOOR, 700, 20),  # Ground
-            pygame.Rect(200, 480, 120, 20),  # Mid-level platform
+            pygame.Rect(200, 460, 120, 20),  # Mid-level platform
             pygame.Rect(400, 400, 150, 20),  # Higher platform
         ]
         self.moving_platforms = {

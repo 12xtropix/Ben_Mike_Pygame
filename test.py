@@ -34,7 +34,7 @@ on_ground = False
 
 # Scroll setup
 scroll = 0
-bg = pygame.image.load("redballbackground.jpg").convert()  # Background image
+bg = pygame.image.load("images/redballbackground.jpg").convert()  # Background image
 tiles = math.ceil(Width / bg.get_width()) + 1  # Tiles for infinite scroll
 
 # Infinite floor setup (Repeating platforms)

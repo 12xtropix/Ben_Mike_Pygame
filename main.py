@@ -3,7 +3,7 @@ from player import Player
 from level1 import Level1
 from level2 import Level2
 from level3 import Level3
-from MovingPlatform import MovingPlatform
+from level4 import Level4
 import config
 
 class Game:
@@ -14,7 +14,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.levels = [Level1(), Level2(), Level3()]
+        self.levels = [Level1(), Level2(), Level3(), Level4()]
         self.current_level = self.show_level_menu()  # Ask player to choose a level
         self.player = Player()
 
@@ -32,7 +32,7 @@ class Game:
             self.screen.blit(title_text, (config.SCREEN_SIZE[0] // 2 - 100, 100))
 
             # Render level options
-            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3"]):
+            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3", "Level 4"]):
                 color = (255, 255, 0) if i == selected_level else (200, 200, 200)
                 level_text = font.render(level_name, True, color)
                 self.screen.blit(level_text, (config.SCREEN_SIZE[0] // 2 - 50, 200 + i * 60))
@@ -45,9 +45,9 @@ class Game:
                     exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
-                        selected_level = (selected_level - 1) % 3
+                        selected_level = (selected_level - 1) % 4
                     elif event.key == pygame.K_DOWN:
-                        selected_level = (selected_level + 1) % 3
+                        selected_level = (selected_level + 1) % 4
                     elif event.key == pygame.K_RETURN:
                         menu_running = False  # Start game with selected level
 

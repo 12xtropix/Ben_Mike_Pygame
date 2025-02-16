@@ -33,8 +33,8 @@ class Player:
         for platform in platforms:
             if self.rect.colliderect(platform):
                 if self.vel_y > 0:  # Falling down
-                    self.rect.bottom = platform.top
                     self.vel_y = 0
+                    self.rect.bottom = platform.top
                     self.on_ground = True
                     print("Player landed on a platform.")  # Debugging output
                 elif self.vel_y < 0:  # Jumping up (hitting ceiling)
