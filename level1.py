@@ -21,3 +21,5 @@ class Level1:
             pygame.draw.rect(screen,(255,255,255),platform)
 
 
+
+
