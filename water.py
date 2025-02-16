@@ -1,15 +1,16 @@
-#WATER
 import pygame
 import config
 import math
-
 
 class Water:
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y, width, height)
         self.start_time = pygame.time.get_ticks()  # Store start time when the water is created
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
+        # Apply the camera offset to the water's position (call apply on the camera object)
+        adjusted_rect = camera.apply(self.rect)  # Adjusted water position based on the camera
+
         # Calculate elapsed time
         elapsed_time = (pygame.time.get_ticks() - self.start_time) / 1000  # Time in seconds
 
@@ -22,7 +23,7 @@ class Water:
         points = []
 
         # Loop through each cell across the width of the water surface
-        for i in range(self.rect.x, self.rect.x + self.rect.width, cell_width):
+        for i in range(adjusted_rect.x, adjusted_rect.x + adjusted_rect.width, cell_width):
             # Calculate oscillation offset for each cell
             if i // cell_width % 2 == 0:
                 # Even-numbered cells are "high" when the time is right
@@ -36,19 +37,19 @@ class Water:
                     y_offset = 0
 
             # Add points for each "slice", oscillating between 0 and maximum height
-            points.append((i, self.rect.y + self.rect.height + y_offset))
+            points.append((i, adjusted_rect.y + adjusted_rect.height + y_offset))
 
         # Pin the first point (left-most) at the base level (do not oscillate)
-        points[0] = (self.rect.x, self.rect.y + self.rect.height)
+        points[0] = (adjusted_rect.x, adjusted_rect.y + adjusted_rect.height)
 
         # Pin the last point (right-most) at the same base level
-        points[-1] = (self.rect.x + self.rect.width, self.rect.y + self.rect.height)
+        points[-1] = (adjusted_rect.x + adjusted_rect.width, adjusted_rect.y + adjusted_rect.height)
 
         # Draw the polygon with the oscillating points
         pygame.draw.polygon(screen, (0, 0, 255), points)
 
     def check_collision(self, player):
+
         if self.rect.colliderect(player.rect):
             player.rect.x = config.STARTING_X
             player.rect.y = config.STARTING_Y
-

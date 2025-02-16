@@ -2,11 +2,12 @@ import pygame
 import config
 from MovingPlatform import MovingPlatform
 from water import Water
+from door import Door
 
 class Level4:
     def __init__(self):
         self.platforms = [
-            pygame.Rect(50, config.FLOOR, 1000, 20),  # Ground
+            pygame.Rect(50, config.FLOOR, 1500, 20),  # Ground
             pygame.Rect(200, 460, 120, 20),  # Mid-level platform
             pygame.Rect(500, 460, 120, 20),  # Higher platform
         ]
@@ -17,6 +18,7 @@ class Level4:
             Water(300, config.FLOOR - 20, 275, 20),  # Add a water pit
 
         ]
+        self.door = Door()
 
     def update(self, player):
         for platform in self.moving_platforms:
@@ -25,12 +27,13 @@ class Level4:
         for water in self.water:
             water.check_collision(player)
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         for platform in self.platforms:
-            pygame.draw.rect(screen, (0, 255, 0), platform)  # Green platforms
+            pygame.draw.rect(screen, (0, 255, 0), camera.apply(platform))  # Green platforms
 
         for platform in self.moving_platforms:
-            platform.draw(screen)
+            platform.draw(screen, camera)
 
         for water in self.water:
-            water.draw(screen)
+            water.draw(screen, camera)
+        self.door.draw(screen, camera)

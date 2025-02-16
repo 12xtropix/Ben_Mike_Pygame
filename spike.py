@@ -5,11 +5,11 @@ class Spike:
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y, width, height)
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         pygame.draw.polygon(screen, (255, 0, 0), [
-            (self.rect.x, self.rect.y + self.rect.height),  # Bottom-left
-            (self.rect.x + self.rect.width // 2, self.rect.y),  # Top-center
-            (self.rect.x + self.rect.width, self.rect.y + self.rect.height)  # Bottom-right
+            camera.apply((self.rect.x, self.rect.y + self.rect.height)),  # Bottom-left
+            camera.apply((self.rect.x + self.rect.width // 2, self.rect.y)),  # Top-center
+            camera.apply((self.rect.x + self.rect.width, self.rect.y + self.rect.height))  # Bottom-right
         ])
 
     def check_collision(self, player):

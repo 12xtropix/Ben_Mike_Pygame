@@ -2,6 +2,7 @@ import pygame
 import config
 from MovingPlatform import MovingPlatform
 from spike import Spike
+from door import Door
 
 class Level3:
     def __init__(self):
@@ -17,6 +18,7 @@ class Level3:
             Spike(300, config.FLOOR - 20, 40, 20),  # Add spikes on the floor
             Spike(600, config.FLOOR - 20, 40, 20)
         ]
+        self.door = Door()
 
     def update(self, player):
         for platform in self.moving_platforms:
@@ -25,12 +27,13 @@ class Level3:
         for spike in self.spikes:
             spike.check_collision(player)
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         for platform in self.platforms:
-            pygame.draw.rect(screen, (0, 255, 0), platform)  # Green platforms
+            pygame.draw.rect(screen, (0, 255, 0), camera.apply(platform))  # Green platforms
 
         for platform in self.moving_platforms:
-            platform.draw(screen)
+            platform.draw(screen, camera)
 
         for spike in self.spikes:
-            spike.draw(screen)
+            spike.draw(screen, camera)
+        self.door.draw(screen, camera)

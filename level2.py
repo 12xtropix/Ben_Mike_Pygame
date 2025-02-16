@@ -1,5 +1,6 @@
 import pygame
 import config
+from door import Door
 
 class Level2:
     def __init__(self):
@@ -13,7 +14,9 @@ class Level2:
         self.moving_platforms = {
 
         }
+        self.door = Door()
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         for platform in self.platforms:
-            pygame.draw.rect(screen, (0, 255, 0), platform)  # Green platforms
+            pygame.draw.rect(screen, (0, 255, 0), camera.apply(platform))  # Green platforms
+        self.door.draw(screen, camera)

@@ -1,5 +1,6 @@
 import pygame
 from player import Player
+from camera import Camera
 from level1 import Level1
 from level2 import Level2
 from level3 import Level3
@@ -17,6 +18,8 @@ class Game:
         self.levels = [Level1(), Level2(), Level3(), Level4()]
         self.current_level = self.show_level_menu()  # Ask player to choose a level
         self.player = Player()
+
+        self.camera = Camera(config.SCREEN_SIZE[0], config.SCREEN_SIZE[1])
 
     def show_level_menu(self):
         """Displays a menu for level selection."""
@@ -72,34 +75,37 @@ class Game:
 
     def update(self):
         self.player.update(self.levels[self.current_level].platforms, self.levels[self.current_level].moving_platforms)
-        print(self.player.rect.y)
+        print("player y-value is " , self.player.rect.y)
+        print("player x-value is " , self.player.rect.x)
+
+        self.camera.update(self.player)
 
         # Check if player reached the right edge of the screen
         if hasattr(self.levels[self.current_level], "update"):
             self.levels[self.current_level].update(self.player)
 
-        if self.player.rect.x > config.SCREEN_SIZE[0]:
+        # Check if player has collided with the door to go to the next level
+        if hasattr(self.levels[self.current_level], "door") and self.levels[self.current_level].door.check_collision(self.player):
             self.next_level()
-        # Check if player has reached an adequate height
-        if self.player.rect.y < 150:
-            self.next_level()
+
+        # Check if the player is out of bounds (e.g., falls off the screen)
         if self.player.rect.y > 700:
             self.player.rect.y = config.STARTING_Y
             self.player.rect.x = config.STARTING_X
-        # Update moving platforms (if any) in the current level
     def next_level(self):
         if self.current_level < len(self.levels) - 1:
             self.current_level += 1
-            self.player.rect.y = 400
+            self.player.rect.y = config.FLOOR - 25
             self.player.rect.x = 50  # Reset player position
 
     def draw(self):
         # Draw background image instead of solid color
+        self.screen.fill((0, 0, 0))
         self.screen.blit(config.BACKGROUND_IMAGE, (0, 0))
 
         # Draw level elements and player
-        self.levels[self.current_level].draw(self.screen)
-        self.player.draw(self.screen)
+        self.levels[self.current_level].draw(self.screen, self.camera)
+        self.screen.blit(self.player.image, self.camera.apply(self.player))
 
         pygame.display.flip()
 

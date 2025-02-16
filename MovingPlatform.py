@@ -10,7 +10,9 @@ class MovingPlatform:
     def update(self):
         self.rect.y += self.speed * self.direction
         if self.rect.y < self.range_y[0] or self.rect.y > self.range_y[1]:
-            self.direction *= -1  # Reverse direction when hitting limits
+            self.direction *= -1
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, (0, 200, 200), self.rect)  # Cyan moving platform
+    def draw(self, screen, camera):
+        # Apply camera offset to the rect, then draw the platform
+        temprect = camera.apply(self.rect)  # Adjusted platform position
+        pygame.draw.rect(screen, (0, 200, 200), temprect)  # Cyan moving platform
