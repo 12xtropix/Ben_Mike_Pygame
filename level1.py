@@ -14,7 +14,7 @@ class Level1:
 
         ]
         self.ground = [pygame.Rect(50, config.FLOOR, 1000, 20)]
-        self.door = Door()
+        self.door = Door(900, 200)
 
 
     def draw(self, screen, camera):

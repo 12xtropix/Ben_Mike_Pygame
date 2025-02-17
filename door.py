@@ -2,11 +2,11 @@ import pygame
 import config
 # Door class
 class Door:
-    def __init__(self):
-        self.front = pygame.Rect(config.SCREEN_SIZE[0] - 100, 400, 5, 20)
-        self.top = pygame.Rect(config.SCREEN_SIZE[0] - 100, 410, 10, 5)
-        self.back = pygame.Rect(config.SCREEN_SIZE[0] - 90, 400, 5, 20)
-        self.middle = pygame.Rect(config.SCREEN_SIZE[0] - 100, 400, 10, 10)
+    def __init__(self, x, y):
+        self.front = pygame.Rect(x, y, 5, 20)
+        self.top = pygame.Rect(x, y+20, 10, 5)
+        self.back = pygame.Rect(x+20, y, 5, 20)
+        self.middle = pygame.Rect(x, y, 20, 20)
 
     def draw(self, screen, camera):
         front_rect = camera.apply(self.front)
@@ -14,9 +14,9 @@ class Door:
         back_rect = camera.apply(self.back)
         middle_rect = camera.apply(self.middle)
 
-        pygame.draw.rect(screen, (190, 3, 250), front_rect)
-        pygame.draw.rect(screen, (190, 3, 250), top_rect)
-        pygame.draw.rect(screen, (190, 3, 250), back_rect)
+        pygame.draw.rect(screen, (0, 3, 250), front_rect)
+        pygame.draw.rect(screen, (190, 3, 0), top_rect)
+        pygame.draw.rect(screen, (0, 3, 250), back_rect)
         pygame.draw.rect(screen, (190, 3, 250), middle_rect)
 
     def check_collision(self, player):

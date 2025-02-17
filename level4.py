@@ -18,7 +18,7 @@ class Level4:
             Water(300, config.FLOOR - 20, 275, 20),  # Add a water pit
 
         ]
-        self.door = Door()
+        self.door = Door(1400, 400)
 
     def update(self, player):
         for platform in self.moving_platforms:

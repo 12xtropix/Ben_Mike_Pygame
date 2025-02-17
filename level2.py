@@ -14,7 +14,7 @@ class Level2:
         self.moving_platforms = {
 
         }
-        self.door = Door()
+        self.door = Door(600, 200)
 
     def draw(self, screen, camera):
         for platform in self.platforms:

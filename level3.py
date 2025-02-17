@@ -18,7 +18,7 @@ class Level3:
             Spike(300, config.FLOOR - 20, 40, 20),  # Add spikes on the floor
             Spike(600, config.FLOOR - 20, 40, 20)
         ]
-        self.door = Door()
+        self.door = Door(600, 200)
 
     def update(self, player):
         for platform in self.moving_platforms:
