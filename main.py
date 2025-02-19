@@ -1,6 +1,6 @@
 import pygame
-from player import Player
-from camera import Camera
+from mainstuff.player import Player
+from mainstuff.camera import Camera
 from levels.level1 import Level1
 from levels.level2 import Level2
 from levels.level3 import Level3
