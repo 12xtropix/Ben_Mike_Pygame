@@ -1,10 +1,10 @@
 import pygame
 from player import Player
 from camera import Camera
-from level1 import Level1
-from level2 import Level2
-from level3 import Level3
-from level4 import Level4
+from levels.level1 import Level1
+from levels.level2 import Level2
+from levels.level3 import Level3
+from levels.level4 import Level4
 import config
 
 class Game:

@@ -1,6 +1,6 @@
 import pygame
 import config
-from door import Door
+from objects.door import Door
 
 class Level2:
     def __init__(self):

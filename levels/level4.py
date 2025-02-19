@@ -1,8 +1,8 @@
 import pygame
 import config
-from MovingPlatform import MovingPlatform
-from water import Water
-from door import Door
+from objects.MovingPlatform import MovingPlatform
+from obstacles.water import Water
+from objects.door import Door
 
 class Level4:
     def __init__(self):

@@ -1,6 +1,6 @@
 import pygame
 import config
-import MovingPlatform
+
 
 class Player:
     def __init__(self):

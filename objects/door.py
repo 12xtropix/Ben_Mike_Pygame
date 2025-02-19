@@ -1,5 +1,5 @@
 import pygame
-import config
+
 
 # Door class
 class Door:

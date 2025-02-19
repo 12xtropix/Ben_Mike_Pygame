@@ -1,8 +1,8 @@
 import pygame
 import config
-from MovingPlatform import MovingPlatform
-from spike import Spike
-from door import Door
+from objects.MovingPlatform import MovingPlatform
+from obstacles.spike import Spike
+from objects.door import Door
 
 class Level3:
     def __init__(self):
