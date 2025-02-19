@@ -1,25 +1,30 @@
 import pygame
 import config
+
 # Door class
 class Door:
     def __init__(self, x, y):
-        self.front = pygame.Rect(x, y, 5, 20)
-        self.top = pygame.Rect(x, y+20, 10, 5)
-        self.back = pygame.Rect(x+20, y, 5, 20)
-        self.middle = pygame.Rect(x, y, 20, 20)
+        # Set the position of the finish line (door is now the finish line)
+        self.x = x
+        self.y = y
+        self.width = 200  # Width of the finish line
+        self.height = 20  # Height of the finish line
 
     def draw(self, screen, camera):
-        front_rect = camera.apply(self.front)
-        top_rect = camera.apply(self.top)
-        back_rect = camera.apply(self.back)
-        middle_rect = camera.apply(self.middle)
+        # Create a camera-adjusted position for the finish line
+        finish_line_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        finish_line_rect = camera.apply(finish_line_rect)
 
-        pygame.draw.rect(screen, (0, 3, 250), front_rect)
-        pygame.draw.rect(screen, (190, 3, 0), top_rect)
-        pygame.draw.rect(screen, (0, 3, 250), back_rect)
-        pygame.draw.rect(screen, (190, 3, 250), middle_rect)
+        # Drawing the checkered pattern for the finish line
+        checkered_width = 20  # Width of each small rectangle
+        checkered_height = self.height  # Height will be the height of the finish line
+        for i in range(0, self.width, checkered_width * 2):
+            # Alternate between black and white rectangles
+            pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(finish_line_rect.x + i, finish_line_rect.y, checkered_width, checkered_height))  # Black
+            pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(finish_line_rect.x + i + checkered_width, finish_line_rect.y, checkered_width, checkered_height))  # White
 
     def check_collision(self, player):
-        # Check if any part of the door's rect collides with the player's rect
-        return self.front.colliderect(player.rect) or self.top.colliderect(player.rect) or \
-               self.back.colliderect(player.rect) or self.middle.colliderect(player.rect)
+        # Check if the player collides with the finish line area
+        finish_line_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        return finish_line_rect.colliderect(player.rect)
+
