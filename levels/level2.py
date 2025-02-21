@@ -1,6 +1,9 @@
 import pygame
 import config
+from config import ENEMY_IMAGE
 from objects.door import Door
+from obstacles.enemies import Enemy
+
 
 class Level2:
     def __init__(self):
@@ -15,8 +18,13 @@ class Level2:
 
         }
         self.door = Door(600, 200)
+        self.enemies = [Enemy(200, config.FLOOR - 27, 100, 300)]
 
     def draw(self, screen, camera):
         for platform in self.platforms:
             pygame.draw.rect(screen, (0, 255, 0), camera.apply(platform))  # Green platforms
         self.door.draw(screen, camera)
+        for enemy in self.enemies:
+            enemy.draw(screen, camera)  # Call the draw method on each enemy instance
+
+

@@ -1,0 +1,39 @@
+import config
+from config import ENEMY_IMAGE
+import pygame
+
+class Enemy:
+    def __init__(self, x, y, left_bound, right_bound):
+        self.image = ENEMY_IMAGE
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.left_bound = left_bound
+        self.right_bound = right_bound
+        self.speed = 2
+        self.direction = 1
+
+    def update(self):
+        self.rect.x += self.speed * self.direction
+        if self.rect.x <= self.left_bound:
+            self.direction = 1
+        elif self.rect.x >= self.right_bound:
+            self.direction = -1
+
+    def draw(self, screen, camera):
+        square_rect = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
+        square_rect = camera.apply(square_rect)
+        screen.blit(self.image, square_rect.topleft)
+
+    def check_collision(self, player):
+        if self.rect.colliderect(player.rect):
+            if player.rect.bottom <= self.rect.top + 10:
+                player.vel_y = -10
+                self.destroy()
+            else:
+                player.rect.x = config.STARTING_X
+                player.rect.y = config.STARTING_Y
+
+    def destroy(self):
+        self.rect.x = -1000
+        self.rect.y = -1000

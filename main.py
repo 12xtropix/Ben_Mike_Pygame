@@ -75,8 +75,15 @@ class Game:
 
     def update(self):
         self.player.update(self.levels[self.current_level].platforms, self.levels[self.current_level].moving_platforms)
-        print("player y-value is " , self.player.rect.y)
-        print("player x-value is " , self.player.rect.x)
+
+        if hasattr(self.levels[self.current_level], "enemies"):
+            for enemy in self.levels[self.current_level].enemies:
+                enemy.update()
+                if enemy.check_collision(self.player):
+                    print("Collision with enemy detected!")
+
+        print("player y-value is ", self.player.rect.y)
+        print("player x-value is ", self.player.rect.x)
 
         self.camera.update(self.player)
 
@@ -84,14 +91,16 @@ class Game:
         if hasattr(self.levels[self.current_level], "update"):
             self.levels[self.current_level].update(self.player)
 
-        # Check if player has collided with the door to go to the next level
-        if hasattr(self.levels[self.current_level], "door") and self.levels[self.current_level].door.check_collision(self.player):
+        # Check if the player has collided with the door to go to the next level
+        if hasattr(self.levels[self.current_level], "door") and self.levels[self.current_level].door.check_collision(
+                self.player):
             self.next_level()
 
         # Check if the player is out of bounds (e.g., falls off the screen)
         if self.player.rect.y > 700:
             self.player.rect.y = config.STARTING_Y
             self.player.rect.x = config.STARTING_X
+
     def next_level(self):
         if self.current_level < len(self.levels) - 1:
             self.current_level += 1
