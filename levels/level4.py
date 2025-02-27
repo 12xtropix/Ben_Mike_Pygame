@@ -4,6 +4,7 @@ from objects.MovingPlatform import MovingPlatform
 from obstacles.water import Water
 from objects.door import Door
 
+
 class Level4:
     def __init__(self):
         self.platforms = [
@@ -19,6 +20,7 @@ class Level4:
 
         ]
         self.door = Door(1400, 400)
+
 
     def update(self, player):
         for platform in self.moving_platforms:
