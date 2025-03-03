@@ -4,7 +4,7 @@ class Camera:
         self.camera = pygame.Rect(0, 0, width, height)  # Camera view
         self.camera.width = width
         self.camera.height = height
-        self.world_size = (1600, 1200)
+        self.world_size = (5000, 1200)
 
     def apply(self, entity):
         """Adjusts the entity's position based on camera position."""
