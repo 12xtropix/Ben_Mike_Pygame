@@ -6,4 +6,4 @@ class Wall:
 
     def draw(self, screen, camera):
         temprect = camera.apply(self.rect)
-        pygame.draw.rect(screen, (150, 75, 0), temprect)  # Brown wall
+        pygame.draw.rect(screen, (169, 70, 9), temprect)  # Brown wall
