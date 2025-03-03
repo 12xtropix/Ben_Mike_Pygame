@@ -19,14 +19,18 @@ class Camera:
             return (entity[0] + self.camera.topleft[0], entity[1] + self.camera.topleft[1])
 
     def update(self, target):
-        """Update the camera's position based on the target (player's) position."""
-        x = -target.rect.centerx + int(self.camera.width / 2)
-        y = -target.rect.centery + int(self.camera.height / 2)
+        """Smoothly follow the player"""
+        x = -target.rect.centerx + self.camera.width // 2
+        y = -target.rect.centery + self.camera.height // 2
 
-        # Prevent scrolling out of bounds
-        x = min(0, x)
-        y = min(0, y)
-        x = max(-(self.world_size[0] - self.camera.width), x)
-        y = max(-(self.world_size[1] - self.camera.height), y)
+        # Implement a slight delay effect for smooth scrolling
+        self.camera.x += (x - self.camera.x) * 0.1
+        self.camera.y += (y - self.camera.y) * 0.1
 
-        self.camera = pygame.Rect(x, y, self.camera.width, self.camera.height)
+        # Keep within world bounds
+        self.camera.x = min(0, self.camera.x)
+        self.camera.y = min(0, self.camera.y)
+        self.camera.x = max(-(self.world_size[0] - self.camera.width), self.camera.x)
+        self.camera.y = max(-(self.world_size[1] - self.camera.height), self.camera.y)
+
+        #self.camera = pygame.Rect(x, y, self.camera.width, self.camera.height)

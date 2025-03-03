@@ -28,7 +28,10 @@ class Level1:
 
     def draw(self, screen, camera):
         for platform in self.platforms:
-            pygame.draw.rect(screen, (0, 255, 0), camera.apply(platform))  # Green platforms
+            adjusted_rect = camera.apply(platform)
+            pygame.draw.rect(screen, (0, 255, 0), adjusted_rect)  # Green for platforms
+            # Debug: Draw collision box in white
+            pygame.draw.rect(screen, (255, 255, 255), adjusted_rect, 2)
         for ground in self.ground:
             pygame.draw.rect(screen, (255, 255, 255), camera.apply(ground))
         for wall in self.walls:

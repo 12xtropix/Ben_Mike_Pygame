@@ -1,53 +1,38 @@
 import pygame
 import config
 
-
 class Player:
     def __init__(self):
-        self.image = pygame.Surface((30, 30), pygame.SRCALPHA)
-        pygame.draw.circle(self.image, (255, 0, 0), (15, 15), 15)  # Red ball
-        self.rect = self.image.get_rect(midbottom=(100, 450))
+        self.image = config.MC_IMAGE
+        self.image = pygame.transform.scale(self.image, (30, 30))  # Scale the image to fit the player size
+        self.original_image = self.image.copy()  # Keep a copy of the original image for rotation
+        self.rect = self.image.get_rect(midbottom=(100, 450))  # Position the player at the initial location
         self.vel_y = 0
         self.on_ground = False
+        self.rotation_angle = 0  # Track the rotation angle for the ball
 
     def handle_input(self, keys):
         if keys[pygame.K_LEFT]:
             self.rect.x -= 5
+            self.rotation_angle += 5  # Rotate when moving left
+            print(f"Rotating left: {self.rotation_angle}")  # Debug output
         if keys[pygame.K_RIGHT]:
             self.rect.x += 5
+            self.rotation_angle -= 5  # Rotate when moving right
+            print(f"Rotating right: {self.rotation_angle}")  # Debug output
         if keys[pygame.K_UP] and self.on_ground:
             print("Jumping!")  # Debugging output
             self.vel_y = config.JUMP_STRENGTH
             self.on_ground = False
 
-    def update(self, platforms, moving_platforms, walls):
+    def update(self, platforms, moving_platforms):
         self.vel_y += config.GRAVITY  # Apply gravity
         self.rect.y += self.vel_y  # Move vertically
 
-        self.check_collisions(platforms, moving_platforms, walls)
+        self.check_collisions(platforms, moving_platforms)
 
-    def check_collisions(self, platforms, moving_platforms, walls):
+    def check_collisions(self, platforms, moving_platforms):
         self.on_ground = False
-
-        for wall in walls:
-            if self.rect.colliderect(wall):
-                # Horizontal collision
-                if self.rect.right > wall.left and self.rect.left < wall.right:
-                    if self.rect.centerx < wall.centerx:
-                        self.rect.right = wall.left  # Stop the player from moving right through the wall
-                    elif self.rect.centerx > wall.centerx:
-                        self.rect.left = wall.right  # Stop the player from moving left through the wall
-
-                # Vertical collision (falling down or jumping up)
-                if self.vel_y > 0:  # Falling down
-                    if self.rect.bottom > wall.top and self.rect.top < wall.top:
-                        self.rect.bottom = wall.top  # Prevent going through the wall
-                        self.vel_y = 0  # Stop falling
-                        self.on_ground = True  # Set player on ground
-                elif self.vel_y < 0:  # Jumping up
-                    if self.rect.top < wall.bottom and self.rect.bottom > wall.bottom:
-                        self.rect.top = wall.bottom  # Prevent going through the ceiling
-                        self.vel_y = 0  # Stop upward velocity
 
         # Collision with static platforms
         for platform in platforms:
@@ -73,7 +58,12 @@ class Player:
                     self.rect.top = moving_platform.rect.bottom
                     self.vel_y = moving_platform.speed
 
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
+    def draw(self, screen, camera):
+        rotated_image = pygame.transform.rotate(self.original_image, self.rotation_angle)
+        rotated_rect = rotated_image.get_rect(center=self.rect.center)
 
+        # Apply camera transformation
+        adjusted_rect = camera.apply(self.rect)
+        rotated_rect.topleft = adjusted_rect.topleft  # Align the rotated rect with the camera
 
+        screen.blit(rotated_image, rotated_rect)
