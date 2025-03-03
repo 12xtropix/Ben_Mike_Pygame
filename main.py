@@ -5,6 +5,7 @@ from levels.level1 import Level1
 from levels.level2 import Level2
 from levels.level3 import Level3
 from levels.level4 import Level4
+from levels.level5 import Level5
 import config
 
 class Game:
@@ -15,7 +16,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.levels = [Level1(), Level2(), Level3(), Level4()]
+        self.levels = [ Level1(), Level2(), Level3(), Level4(), Level5() ]
         self.current_level = self.show_level_menu()  # Ask player to choose a level
         self.player = Player()
 
@@ -35,7 +36,7 @@ class Game:
             self.screen.blit(title_text, (config.SCREEN_SIZE[0] // 2 - 100, 100))
 
             # Render level options
-            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3", "Level 4"]):
+            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]):
                 color = (255, 255, 0) if i == selected_level else (200, 200, 200)
                 level_text = font.render(level_name, True, color)
                 self.screen.blit(level_text, (config.SCREEN_SIZE[0] // 2 - 50, 200 + i * 60))
@@ -48,9 +49,9 @@ class Game:
                     exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
-                        selected_level = (selected_level - 1) % 4
+                        selected_level = (selected_level - 1) % 5
                     elif event.key == pygame.K_DOWN:
-                        selected_level = (selected_level + 1) % 4
+                        selected_level = (selected_level + 1) % 5
                     elif event.key == pygame.K_RETURN:
                         menu_running = False  # Start game with selected level
 
@@ -81,6 +82,11 @@ class Game:
                 enemy.update()
                 if enemy.check_collision(self.player):
                     print("Collision with enemy detected!")
+        if hasattr(self.levels[self.current_level], "bosses"):
+            for boss in self.levels[self.current_level].bosses:
+                boss.update()
+                if boss.check_collision(self.player):
+                    print("Collision with boss detected!")
 
         print("player y-value is ", self.player.rect.y)
         print("player x-value is ", self.player.rect.x)
