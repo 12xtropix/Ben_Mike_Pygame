@@ -63,6 +63,10 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  # Left mouse click
+                    if self.is_back_to_menu_button_clicked(event.pos):
+                        self.current_level = self.show_level_menu()
 
         keys = pygame.key.get_pressed()
         self.player.handle_input(keys)
@@ -76,9 +80,6 @@ class Game:
                 enemy.update()
                 if enemy.check_collision(self.player):
                     print("Collision with enemy detected!")
-
-        print("player y-value is ", self.player.rect.y)
-        print("player x-value is ", self.player.rect.x)
 
         self.camera.update(self.player)
 
@@ -102,10 +103,38 @@ class Game:
         self.screen.fill((0, 0, 0))
         self.screen.blit(config.BACKGROUND_IMAGE, (0, 0))
         self.levels[self.current_level].draw(self.screen, self.camera)
-        self.screen.blit(self.player.image, self.camera.apply(self.player))
+        #self.screen.blit(self.player.image, self.camera.apply(self.player))
+        self.player.draw(self.screen, self.camera)
+
+        # Draw circular "Back to Menu" button with a menu icon
+        self.draw_back_to_menu_button()
+
         pygame.display.flip()
+
+    def draw_back_to_menu_button(self):
+        # Circle button configuration
+        button_radius = 22
+        button_x = config.SCREEN_SIZE[0] - button_radius - 10
+        button_y = config.SCREEN_SIZE[1] - button_radius - 10
+
+        # Draw circle button
+        pygame.draw.circle(self.screen, (139,69, 19), (button_x, button_y), button_radius)
+
+        # Draw menu icon (three horizontal lines)
+        line_length = 20
+        line_thickness = 3
+        for i in range(3):
+            pygame.draw.rect(self.screen, (255, 255, 255), (button_x - line_length // 2, button_y - 10 + i * 8, line_length, line_thickness))
+
+    def is_back_to_menu_button_clicked(self, mouse_pos):
+        button_radius = 30
+        button_x = config.SCREEN_SIZE[0] - button_radius - 10
+        button_y = config.SCREEN_SIZE[1] - button_radius - 10
+
+        x, y = mouse_pos
+        distance = ((x - button_x) ** 2 + (y - button_y) ** 2) ** 0.5
+        return distance <= button_radius
 
 if __name__ == "__main__":
     game = Game()
     game.run()
-

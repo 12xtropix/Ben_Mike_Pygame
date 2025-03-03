@@ -25,16 +25,35 @@ class Player:
             self.vel_y = config.JUMP_STRENGTH
             self.on_ground = False
 
-    def update(self, platforms, moving_platforms):
+    def update(self, platforms, moving_platforms, walls):
         self.vel_y += config.GRAVITY  # Apply gravity
         self.rect.y += self.vel_y  # Move vertically
 
-        self.check_collisions(platforms, moving_platforms)
+        self.check_collisions(platforms, moving_platforms, walls)
 
-    def check_collisions(self, platforms, moving_platforms):
+    def check_collisions(self, platforms, moving_platforms, walls):
         self.on_ground = False
 
         # Collision with static platforms
+        for wall in walls:
+            if self.rect.colliderect(wall):
+                # Horizontal collision
+                if self.rect.right > wall.left and self.rect.left < wall.right:
+                    if self.rect.centerx < wall.centerx:
+                        self.rect.right = wall.left  # Stop the player from moving right through the wall
+                    elif self.rect.centerx > wall.centerx:
+                        self.rect.left = wall.right  # Stop the player from moving left through the wall
+
+                # Vertical collision (falling down or jumping up)
+                if self.vel_y > 0:  # Falling down
+                    if self.rect.bottom > wall.top and self.rect.top < wall.top:
+                        self.rect.bottom = wall.top  # Prevent going through the wall
+                        self.vel_y = 0  # Stop falling
+                        self.on_ground = True  # Set player on ground
+                elif self.vel_y < 0:  # Jumping up
+                    if self.rect.top < wall.bottom and self.rect.bottom > wall.bottom:
+                        self.rect.top = wall.bottom  # Prevent going through the ceiling
+                        self.vel_y = 0  # Stop upward velocity
         for platform in platforms:
             if self.rect.colliderect(platform):
                 if self.vel_y > 0:  # Falling down
