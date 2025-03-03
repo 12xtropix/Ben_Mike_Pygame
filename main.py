@@ -120,9 +120,14 @@ class Game:
 
         # Draw level elements and player
         self.levels[self.current_level].draw(self.screen, self.camera)
-        self.screen.blit(self.player.image, self.camera.apply(self.player))
+
+        # Get the rotated player image from the player object
+        self.player.draw(self.screen)  # This will now use the rotated image, not the original
 
         pygame.display.flip()
+
+
+
 
 
 if __name__ == "__main__":
