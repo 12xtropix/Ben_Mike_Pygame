@@ -41,7 +41,7 @@ class Boss:
     def check_collision(self, player):
         if self.rect.colliderect(player.rect):
             if player.rect.bottom <= self.rect.top + 10:
-                player.vel_y = -5
+                player.vel_y = -7
                 self.health-=1
                 if self.health == 0:
                     player.vel_y = -20

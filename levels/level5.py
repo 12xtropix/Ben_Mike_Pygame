@@ -21,12 +21,16 @@ class Level5:
                         Enemy(600, config.FLOOR - 27, 500, 700)
                         ]
         self.bosses = [Boss(400, config.FLOOR - 27, 300, 500)]
+        self.walls = []
 
 
     def update(self, player):
         for platform in self.moving_platforms:
             platform.update()
 
+        for boss in self.bosses:
+            boss.update()
+            boss.check_collision(player)
         #for water in self.water:
          #   water.check_collision(player)
 
