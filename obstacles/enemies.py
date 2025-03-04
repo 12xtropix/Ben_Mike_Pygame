@@ -15,7 +15,7 @@ class Enemy:
 
     def update(self):
         self.rect.x += self.speed * self.direction
-        if self.rect.x <= self.left_bound:
+        if self.rect.x <= self.left_bound: #these if statements define the horizontal boundaries of the enemies, and they will alternate between them
             self.direction = 1
         elif self.rect.x >= self.right_bound:
             self.direction = -1
@@ -27,13 +27,13 @@ class Enemy:
 
     def check_collision(self, player):
         if self.rect.colliderect(player.rect):
-            if player.rect.bottom <= self.rect.top + 10:
+            if player.rect.bottom <= self.rect.top + 10: #if the player has jumped on the top of the enemy, destroy the enemy and boost the player
                 player.vel_y = -10
                 self.destroy()
-            else:
+            else: #otherwise send the player back to the start
                 player.rect.x = config.STARTING_X
                 player.rect.y = config.STARTING_Y
 
-    def destroy(self):
+    def destroy(self): #this is the destroy method, which sends the enemy to off the screen
         self.rect.x = -1000
         self.rect.y = -1000

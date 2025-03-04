@@ -28,6 +28,3 @@ def load_boss_image(size=BOSS_SIZE):
     image = pygame.image.load("images/moonboss.png")
     return pygame.transform.scale(image, size)
 
-#def load_mc_image(size=MC_SIZE):
- #   image = pygame.image.load("images/redballmc.jpg")
-  #  return pygame.transform.scale(image,size)
