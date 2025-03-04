@@ -21,6 +21,10 @@ class Level4:
         ]
         self.door = Door(1400, 400)
 
+        self.walls = [
+
+        ]
+
 
     def update(self, player):
         for platform in self.moving_platforms:

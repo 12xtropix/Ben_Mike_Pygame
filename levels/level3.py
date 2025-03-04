@@ -11,6 +11,10 @@ class Level3:
             pygame.Rect(200, 460, 120, 20),  # Mid-level platform
             pygame.Rect(400, 400, 150, 20),  # Higher platform
         ]
+
+        self.walls =[
+
+        ]
         self.moving_platforms = {
             MovingPlatform(500, 300, 100, 20, 2, (250, 400))  # Moves up & down
         }
