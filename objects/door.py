@@ -1,5 +1,8 @@
 import pygame
 
+"""
+This is our door class, also referred to as finishline in other parts of the code. This allows us to progress to the next level
+"""
 
 # Door class
 class Door:

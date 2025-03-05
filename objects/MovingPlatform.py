@@ -1,5 +1,9 @@
 import pygame
 
+"""
+Here is our moving platform class, which allows us to make cool moving platforms and get to different verticality
+"""
+
 class MovingPlatform:
     def __init__(self, x, y, width, height, speed, range_y):
         self.rect = pygame.Rect(x, y, width, height)
@@ -9,7 +13,7 @@ class MovingPlatform:
 
     def update(self):
         self.rect.y += self.speed * self.direction
-        if self.rect.y < self.range_y[0] or self.rect.y > self.range_y[1]:
+        if self.rect.y < self.range_y[0] or self.rect.y > self.range_y[1]: #reaching the range means the velocity should reverse
             self.direction *= -1
 
     def draw(self, screen, camera):
