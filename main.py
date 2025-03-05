@@ -9,7 +9,7 @@ from levels.level5 import Level5
 import config
 
 """
-This is the main game file, where the logic is run from. It contains many methods, but also relies on calling methods from other files.
+This is the main game file, where the logic is run from. It contains many methods, but also relies on calling methods from other files. 
 """
 
 class Game:
@@ -103,7 +103,8 @@ class Game:
             self.current_level += 1
             self.player.rect.y = config.FLOOR - 25
             self.player.rect.x = 50
-
+        #else:
+            #popup to congratulation screen
     def draw(self):
         self.screen.fill((0, 0, 0))
         self.screen.blit(config.BACKGROUND_IMAGE, (0, 0))
