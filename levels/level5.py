@@ -36,7 +36,10 @@ class Level5:
             Spike(765, 280, 40, 20),
             Spike(805, 280, 40, 20),
             Spike(880, 280, 40, 20),
-            Spike(960, 280, 40, 20)
+            Spike(960, 280, 40, 20),
+
+            Spike(2850, 630, 20,20),
+            Spike(3050, 630, 20, 20)
         ]
         self.enemies = [Enemy(1500, 423, 1400, 1600), #water enemies
                         Enemy(1600, 423, 1500, 1700), #water enemies
