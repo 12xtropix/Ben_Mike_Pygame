@@ -28,10 +28,18 @@ class Level5:
             Water(1900, 440, 300, 10) #water 2
         ]
         self.spikes = [
-            Spike(450,280, 40 , 20),
-            Spike(520, 280, 40, 20),
-            Spike(590, 280, 40, 20),
-            Spike(660, 280, 40, 20)
+            Spike(455,280, 40 , 20),
+            Spike(560, 280, 40, 20),
+            Spike(605, 280, 40, 20),
+            Spike(680, 280, 40, 20),
+
+            Spike(765, 280, 40, 20),
+            Spike(805, 280, 40, 20),
+            Spike(880, 280, 40, 20),
+            Spike(960, 280, 40, 20),
+
+            Spike(2850, 630, 20,20),
+            Spike(3050, 630, 20, 20)
         ]
         self.enemies = [Enemy(1500, 423, 1400, 1600), #water enemies
                         Enemy(1600, 423, 1500, 1700), #water enemies
@@ -58,6 +66,9 @@ class Level5:
         for water in self.water:
             water.check_collision(player)
 
+        for spike in self.spikes:
+            spike.check_collision(player)
+
     def draw(self, screen, camera):
         for platform in self.platforms:
             pygame.draw.rect(screen, (0, 255, 0), camera.apply(platform))  # Green platforms
@@ -76,6 +87,9 @@ class Level5:
 
         for wall in self.walls:
             pygame.draw.rect(screen, (255, 0, 0), camera.apply(wall))
+
+        for spike in self.spikes:
+            spike.draw(screen,camera)
 
         self.door.draw(screen, camera)
 

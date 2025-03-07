@@ -3,6 +3,7 @@ import config
 from objects.MovingPlatform import MovingPlatform
 from obstacles.water import Water
 from objects.door import Door
+from obstacles.spike import Spike
 
 
 class Level4:
@@ -26,20 +27,19 @@ class Level4:
         }
 
         self.water = [
-            Water(200, config.FLOOR - 20, 275, 20),
-            Water(500, config.FLOOR - 20, 275, 20),
-            Water(800, config.FLOOR - 20, 275, 20),
-            Water(1300, config.FLOOR - 20, 275, 20),
-            Water(1700, config.FLOOR - 20, 275, 20),
-            Water(2200, config.FLOOR - 20, 275, 20),
+            Water(200, config.FLOOR - 20, 875, 20),
+            Water(1300, config.FLOOR - 20, 875, 20)
         ]
 
         self.door = Door(2250, 100)  # Moved further to extend the level
 
         self.walls = [
             pygame.Rect(4000, 0, 20, 600),
-            pygame.Rect(1000, 200, 20, 100),
-            pygame.Rect(2000, 200, 20, 100),
+            pygame.Rect(1000, 200, 20, 100)
+        ]
+
+        self.spikes = [
+            Spike(995,180,30,20)
         ]
 
     def update(self, player):
@@ -48,6 +48,9 @@ class Level4:
 
         for water in self.water:
             water.check_collision(player)
+
+        for spike in self.spikes:
+            spike.check_collision(player)
 
     def draw(self, screen, camera):
         for platform in self.platforms:
@@ -63,3 +66,6 @@ class Level4:
 
         for wall in self.walls:
             pygame.draw.rect(screen, (255, 0, 0), camera.apply(wall))
+
+        for spike in self.spikes:
+            spike.draw(screen,camera)
