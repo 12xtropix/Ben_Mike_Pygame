@@ -9,17 +9,16 @@ class Level4:
     def __init__(self):
         self.platforms = [
             pygame.Rect(50, config.FLOOR, 1500, 20),  # Ground
-            pygame.Rect(200, 460, 120, 20),  # Mid-level platform
-            pygame.Rect(500, 460, 120, 20),  # Higher platform
+            # pygame.Rect(200, 460, 120, 20),  # Mid-level platform
+            # pygame.Rect(500, 460, 120, 20),  # Higher platform
         ]
         self.moving_platforms = {
             MovingPlatform(550, 300, 100, 20, 2, (250, 400))  # Moves up & down
         }
         self.water = [
-            Water(300, config.FLOOR - 20, 275, 20),  # Add a water pit
 
         ]
-        self.door = Door(1400, 400)
+        # self.door = Door(1400, 400)
 
         self.walls = [
 
@@ -42,4 +41,5 @@ class Level4:
 
         for water in self.water:
             water.draw(screen, camera)
+
         self.door.draw(screen, camera)
