@@ -1,5 +1,9 @@
 import pygame
 
+"""
+This is our config file, which we made to contain our constants that define our game operation. This is really useful, as you will see in all of our other classes
+"""
+
 # Screen settings
 SCREEN_SIZE = (800, 600)
 ENEMY_SIZE = (30, 30)

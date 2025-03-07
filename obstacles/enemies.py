@@ -2,6 +2,10 @@ import config
 from config import ENEMY_IMAGE
 import pygame
 
+"""
+This is our enemy class, which allows us to create enemies on the screen. 
+"""
+
 class Enemy:
     def __init__(self, x, y, left_bound, right_bound):
         self.image = ENEMY_IMAGE
@@ -17,7 +21,7 @@ class Enemy:
         self.rect.x += self.speed * self.direction
         if self.rect.x <= self.left_bound: #these if statements define the horizontal boundaries of the enemies, and they will alternate between them
             self.direction = 1
-        elif self.rect.x >= self.right_bound:
+        elif self.rect.x >= self.right_bound: #the other side of the boundary
             self.direction = -1
 
     def draw(self, screen, camera):

@@ -5,17 +5,22 @@ from levels.level1 import Level1
 from levels.level2 import Level2
 from levels.level3 import Level3
 from levels.level4 import Level4
+from levels.level5 import Level5
 import config
+
+"""
+This is the main game file, where the logic is run from. It contains many methods, but also relies on calling methods from other files. 
+"""
 
 class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode(config.SCREEN_SIZE)
         pygame.display.set_caption("Red Ball Clone")
-        self.clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock() #starts the clock
         self.running = True
 
-        self.levels = [Level1(), Level2(), Level3(), Level4()]
+        self.levels = [Level1(), Level2(), Level3(), Level4(), Level5()] #list of levels, has to be manually updated to add each
         self.current_level = self.show_level_menu()
         self.player = Player()
         self.camera = Camera(config.SCREEN_SIZE[0], config.SCREEN_SIZE[1])
@@ -25,34 +30,34 @@ class Game:
         selected_level = 0
         menu_running = True
 
-        while menu_running:
+        while menu_running: #while you are in the menu screen
             self.screen.fill((50, 50, 50))
             title_text = font.render("Select a Level:", True, (255, 255, 255))
             self.screen.blit(title_text, (config.SCREEN_SIZE[0] // 2 - 100, 100))
 
-            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3", "Level 4"]):
+            for i, level_name in enumerate(["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]): #if the level is selected, change the font color
                 color = (255, 255, 0) if i == selected_level else (200, 200, 200)
                 level_text = font.render(level_name, True, color)
                 self.screen.blit(level_text, (config.SCREEN_SIZE[0] // 2 - 50, 200 + i * 60))
 
             pygame.display.flip()
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            for event in pygame.event.get(): #action loop
+                if event.type == pygame.QUIT: #if you quit the game, quit the game
                     pygame.quit()
                     exit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        selected_level = (selected_level - 1) % 4
+                    if event.key == pygame.K_UP:#modulo 5 to be able to scroll through the options
+                        selected_level = (selected_level - 1) % 5
                     elif event.key == pygame.K_DOWN:
-                        selected_level = (selected_level + 1) % 4
-                    elif event.key == pygame.K_RETURN:
+                        selected_level = (selected_level + 1) % 5
+                    elif event.key == pygame.K_RETURN: #if you hit enter, close the menu and open the selected level
                         menu_running = False
 
         return selected_level
 
     def run(self):
-        while self.running:
+        while self.running: #main game loop
             self.handle_events()
             self.update()
             self.draw()
@@ -65,7 +70,7 @@ class Game:
                 self.running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left mouse click
-                    if self.is_back_to_menu_button_clicked(event.pos):
+                    if self.is_back_to_menu_button_clicked(event.pos): #if you are clicking on the menu button, go to menu
                         self.current_level = self.show_level_menu()
 
         keys = pygame.key.get_pressed()
@@ -75,35 +80,36 @@ class Game:
         self.player.update(self.levels[self.current_level].platforms, self.levels[self.current_level].moving_platforms,
                            self.levels[self.current_level].walls)
 
-        if hasattr(self.levels[self.current_level], "enemies"):
+        if hasattr(self.levels[self.current_level], "enemies"): #using hasattr to avoid runtime errors
             for enemy in self.levels[self.current_level].enemies:
                 enemy.update()
                 if enemy.check_collision(self.player):
                     print("Collision with enemy detected!")
 
-        self.camera.update(self.player)
+        self.camera.update(self.player) #center the camera
 
-        if hasattr(self.levels[self.current_level], "update"):
+        if hasattr(self.levels[self.current_level], "update"): #another hasattr
             self.levels[self.current_level].update(self.player)
 
-        if hasattr(self.levels[self.current_level], "door") and self.levels[self.current_level].door.check_collision(self.player):
+        if hasattr(self.levels[self.current_level], "door") and self.levels[self.current_level].door.check_collision(self.player): #mix of hasattr and collision detection
             self.next_level()
 
-        if self.player.rect.y > 700:
+        if self.player.rect.y > 700: #if the player falls below the floor, send them to the start
             self.player.rect.y = config.STARTING_Y
             self.player.rect.x = config.STARTING_X
 
     def next_level(self):
-        if self.current_level < len(self.levels) - 1:
+        if self.current_level < len(self.levels) - 1: #if there is a next level, go to it and reset position
             self.current_level += 1
             self.player.rect.y = config.FLOOR - 25
             self.player.rect.x = 50
-
+        else:
+            self.show_congratulations()
     def draw(self):
         self.screen.fill((0, 0, 0))
         self.screen.blit(config.BACKGROUND_IMAGE, (0, 0))
         self.levels[self.current_level].draw(self.screen, self.camera)
-        #self.screen.blit(self.player.image, self.camera.apply(self.player))
+        #self.screen.blit(self.player.image, self.camera.apply(self.player)) unnecessary but kept just in case
         self.player.draw(self.screen, self.camera)
 
         # Draw circular "Back to Menu" button with a menu icon
@@ -135,6 +141,35 @@ class Game:
         distance = ((x - button_x) ** 2 + (y - button_y) ** 2) ** 0.5
         return distance <= button_radius
 
-if __name__ == "__main__":
+    def show_congratulations(self):
+        font = pygame.font.Font(None, 60)
+        congrats_text = font.render("Congratulations!", True, (255, 255, 255))
+        restart_text = font.render("Press ENTER to restart", True, (255, 255, 255))
+
+        # Display the messages on the screen
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(congrats_text,
+                         (config.SCREEN_SIZE[0] // 2 - congrats_text.get_width() // 2, config.SCREEN_SIZE[1] // 3))
+        self.screen.blit(restart_text,
+                         (config.SCREEN_SIZE[0] // 2 - restart_text.get_width() // 2, config.SCREEN_SIZE[1] // 2))
+        pygame.display.flip()
+
+        # Wait for the player to press Enter to restart or quit
+        waiting_for_input = True
+        while waiting_for_input:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:  # Restart the game by showing the level menu again
+                        self.current_level = self.show_level_menu()
+                        waiting_for_input = False
+                    elif event.key == pygame.K_ESCAPE:  # Exit the game
+                        pygame.quit()
+                        exit()
+
+
+if True:
     game = Game()
     game.run()

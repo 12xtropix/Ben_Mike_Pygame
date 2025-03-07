@@ -1,6 +1,10 @@
 import pygame
 import config
 
+"""
+This is our player class, which defines our main character, the red ball. 
+"""
+
 class Player:
     def __init__(self):
         self.image = config.MC_IMAGE

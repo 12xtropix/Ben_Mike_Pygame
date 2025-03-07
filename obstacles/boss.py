@@ -2,6 +2,10 @@ import config
 from config import BOSS_IMAGE
 import pygame
 
+"""
+This is our boss class, which functions like the enemies class but has a health parameter as well. It also has a different image.
+"""
+
 class Boss:
     def __init__(self, x, y, left_bound, right_bound):
         self.image = BOSS_IMAGE
@@ -17,7 +21,7 @@ class Boss:
         self.top_limit = 500 - 40
         self.bottom_limit = 500
 
-    def update(self):
+    def update(self): #this method has capabilities for vertical boss movement, but it is not implemented at this time.
         self.rect.x += self.speed * self.direction
         if self.rect.x <= self.left_bound:
             self.direction = 1
@@ -40,13 +44,13 @@ class Boss:
 
     def check_collision(self, player):
         if self.rect.colliderect(player.rect):
-            if player.rect.bottom <= self.rect.top + 10:
-                player.vel_y = -5
-                self.health-=1
-                if self.health == 0:
+            if player.rect.bottom <= self.rect.top + 10: #if the player jumps on the head, make the boss take damage
+                player.vel_y = -7
+                self.health -= 1
+                if self.health == 0: #if the boss dies, make the player jump very high and then destroy the boss
                     player.vel_y = -20
                     self.destroy()
-            else:
+            else: #if the player does not jump onto the boss head, reset the health and send the player back to the starting point
                 self.health = 5
                 player.rect.x = config.STARTING_X
                 player.rect.y = config.STARTING_Y
