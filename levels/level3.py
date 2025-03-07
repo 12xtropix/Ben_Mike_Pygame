@@ -39,7 +39,7 @@ class Level3:
         ]
         self.walls =[
             pygame.Rect(1070, 300, 20, 400),
-           # pygame.Rect(1620,0, 20, 620),
+            pygame.Rect(1620,0, 20, 620),
             pygame.Rect(2170, 300, 20, 400),
             pygame.Rect(2570, 300, 20, 400),
         ]
