@@ -103,8 +103,8 @@ class Game:
             self.current_level += 1
             self.player.rect.y = config.FLOOR - 25
             self.player.rect.x = 50
-        #else:
-            #popup to congratulation screen
+        else:
+            self.show_congratulations()
     def draw(self):
         self.screen.fill((0, 0, 0))
         self.screen.blit(config.BACKGROUND_IMAGE, (0, 0))
@@ -140,6 +140,35 @@ class Game:
         x, y = mouse_pos
         distance = ((x - button_x) ** 2 + (y - button_y) ** 2) ** 0.5
         return distance <= button_radius
+
+    def show_congratulations(self):
+        font = pygame.font.Font(None, 60)
+        congrats_text = font.render("Congratulations!", True, (255, 255, 255))
+        restart_text = font.render("Press ENTER to restart", True, (255, 255, 255))
+
+        # Display the messages on the screen
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(congrats_text,
+                         (config.SCREEN_SIZE[0] // 2 - congrats_text.get_width() // 2, config.SCREEN_SIZE[1] // 3))
+        self.screen.blit(restart_text,
+                         (config.SCREEN_SIZE[0] // 2 - restart_text.get_width() // 2, config.SCREEN_SIZE[1] // 2))
+        pygame.display.flip()
+
+        # Wait for the player to press Enter to restart or quit
+        waiting_for_input = True
+        while waiting_for_input:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:  # Restart the game by showing the level menu again
+                        self.current_level = self.show_level_menu()
+                        waiting_for_input = False
+                    elif event.key == pygame.K_ESCAPE:  # Exit the game
+                        pygame.quit()
+                        exit()
+
 
 if True:
     game = Game()

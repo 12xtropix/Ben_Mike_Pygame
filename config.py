@@ -13,8 +13,8 @@ FPS = 60
 GRAVITY = 0.4
 JUMP_STRENGTH = -10
 FLOOR = 565
-STARTING_X = 2700 #50
-STARTING_Y = 600 #550
+STARTING_X = 50
+STARTING_Y = 550
 
 # Load Background Image
 BACKGROUND_IMAGE = pygame.transform.scale(pygame.image.load("images/redballbackground4.jpg"), SCREEN_SIZE)

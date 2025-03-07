@@ -5,6 +5,7 @@ from obstacles.water import Water
 from obstacles.enemies import Enemy
 from obstacles.boss import Boss
 from objects.door import Door
+from obstacles.spike import Spike
 
 class Level5:
     def __init__(self):
@@ -25,6 +26,12 @@ class Level5:
         self.water = [
             Water(1400, 440, 300, 10),  #water 1
             Water(1900, 440, 300, 10) #water 2
+        ]
+        self.spikes = [
+            Spike(450,280, 40 , 20),
+            Spike(520, 280, 40, 20),
+            Spike(590, 280, 40, 20),
+            Spike(660, 280, 40, 20)
         ]
         self.enemies = [Enemy(1500, 423, 1400, 1600), #water enemies
                         Enemy(1600, 423, 1500, 1700), #water enemies
